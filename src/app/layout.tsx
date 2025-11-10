@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Header } from "@/components/header/header";
+import { FooterComponent } from "@/components/footer/footer";
 
 export const metadata: Metadata = {
     title: "Insights & Curiosidades",
@@ -24,6 +25,7 @@ export default function RootLayout({
                 >
                     <Header />
                     {children}
+                    <FooterComponent />
                 </ThemeProvider>
             </body>
         </html>
