@@ -14,7 +14,7 @@ export const MainContent = () => {
                     src="https://cdn-imgix.headout.com/media/images/c90f7eb7a5825e6f5e57a5a62d05399c-25058-BestofParis-EiffelTower-Cruise-Louvre-002.jpg?auto=format&q=90&crop=faces&fit=crop"
                     alt=""
                     fill
-                    className="object-cover rounded-md"
+                    className="object-cover rounded-xl"
                     priority
                 />
             </div>

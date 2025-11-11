@@ -1,6 +1,7 @@
 import { NavContent } from "@/components/content/navContent";
 import { MainContent } from "@/components/content/mainContent";
 import { MenuNav } from "@/components/header/menuNav";
+import { LoggedMenu } from "@/components/header/loggedMenu";
 
 export default function Home() {
     return (
