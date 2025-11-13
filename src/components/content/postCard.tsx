@@ -63,7 +63,12 @@ const onSubmit = (values: z.infer<typeof formSchema>) => {
 };
 
 type Props = {
-    content: string;
+    id: number;
+    createdAt: Date;
+    imageUrl: string | null;
+    title: string | null;
+    content: string | null;
+    author: string;
     edit?: boolean;
     delete?: boolean;
 };
@@ -84,25 +89,31 @@ export const PostCard = (data: Props) => {
             <Card className="max-w-[450px]">
                 <CardHeader>
                     <CardTitle className="text-base lg:text-xl">
-                        A Torre Eiffel encolhe no inverno!
+                        {data.title}
                     </CardTitle>
-                    <CardDescription className="flex gap-3">
-                        <div className="text-xs lg:text-base">Matheus</div>
-                        <div className="text-xs lg:text-base">11/03/1999</div>
+                    <CardDescription className="flex gap-1">
+                        <div className="text-xs lg:text-base">
+                            {data.author}
+                        </div>
+                        <div className="text-xs lg:text-base">
+                            {new Date(data.createdAt).toLocaleDateString()}
+                        </div>
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="flex flex-col items-center gap-3">
                     <div className="text-sm lg:text-base">{data.content}</div>
-                    <Image
-                        src="https://cdn-imgix.headout.com/media/images/c90f7eb7a5825e6f5e57a5a62d05399c-25058-BestofParis-EiffelTower-Cruise-Louvre-002.jpg?auto=format&q=90&crop=faces&fit=crop"
-                        alt=""
-                        width={300}
-                        height={100}
-                    />
+                    <div className="relative w-[300px] h-[200px]">
+                        <Image
+                            src={data.imageUrl ?? "/placeholder.png"}
+                            alt={data.title ?? "Imagem do post"}
+                            fill
+                            className="object-cover rounded-lg"
+                        />
+                    </div>
                 </CardContent>
                 <CardFooter className="flex justify-around">
                     <Button className="cursor-pointer">
-                        <Link href="/post">Leia mais...</Link>
+                        <Link href={`/post/${data.id}`}>Leia mais...</Link>
                     </Button>
                     {data.edit && (
                         <Dialog>

@@ -5,7 +5,6 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "./ui/card";
@@ -16,13 +15,14 @@ import { useForm } from "react-hook-form";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "./ui/form";
 import Link from "next/link";
+import { register } from "@/actions/register";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
     name: z.string().min(2, "Precisa ter no minimo 2 caracteres"),
@@ -31,6 +31,8 @@ const formSchema = z.object({
 });
 
 export const RegisterForm = () => {
+    const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -40,8 +42,13 @@ export const RegisterForm = () => {
         },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const user = await register(data);
+        if (user === null) {
+            alert("erro! E-mail já cadastrado");
+        } else {
+            router.push("/");
+        }
     };
 
     return (

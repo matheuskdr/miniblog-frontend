@@ -5,7 +5,6 @@ import {
     Card,
     CardContent,
     CardDescription,
-    CardFooter,
     CardHeader,
     CardTitle,
 } from "./ui/card";
@@ -16,13 +15,16 @@ import { useForm } from "react-hook-form";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "./ui/form";
 import Link from "next/link";
+import { login } from "@/actions/login";
+import { useRouter } from "next/navigation";
+import { useAuthCheck } from "@/hooks/useAuthCheck";
+import { useEffect } from "react";
 
 const formSchema = z.object({
     email: z.email("E-mail inválido."),
@@ -30,6 +32,16 @@ const formSchema = z.object({
 });
 
 export const LoginForm = () => {
+    const router = useRouter();
+
+    const isAuthenticated = useAuthCheck();
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            router.push("/");
+        }
+    }, [isAuthenticated, router]);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -38,8 +50,13 @@ export const LoginForm = () => {
         },
     });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+    const onSubmit = async (data: z.infer<typeof formSchema>) => {
+        const res = await login(data);
+        if (res === null) {
+            alert("Usuário ou senha inválidos!");
+        } else {
+            router.push("/");
+        }
     };
 
     return (
